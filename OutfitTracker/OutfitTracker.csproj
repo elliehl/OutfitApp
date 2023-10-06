@@ -25,6 +25,7 @@
     <None Remove="Services\" />
     <None Remove="Mappers\" />
     <None Remove="DTOs\" />
+    <None Remove="Responses\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -34,5 +35,6 @@
     <Folder Include="Services\" />
     <Folder Include="Mappers\" />
     <Folder Include="DTOs\" />
+    <Folder Include="Responses\" />
   </ItemGroup>
 </Project>

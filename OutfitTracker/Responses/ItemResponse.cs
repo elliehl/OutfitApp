@@ -1,11 +1,11 @@
 ﻿using System;
-namespace OutfitTracker.Entities
+namespace OutfitTracker.Responses
 {
-	public class ItemEntity
+	public class ItemResponse
 	{
-		public int Id { get; set; }
+        public int Id { get; set; }
         public string? Name { get; set; }
-		public string Item_Type { get; set; }
+        public string Item_Type { get; set; }
         public double? Price { get; set; }
         public DateTime? Date_Bought { get; set; }
         public string? Primary_Colour { get; set; }
@@ -16,3 +16,4 @@ namespace OutfitTracker.Entities
         public int Quantity { get; set; }
     }
 }
+

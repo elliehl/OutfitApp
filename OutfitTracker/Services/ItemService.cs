@@ -29,12 +29,27 @@ namespace OutfitTracker.Services
             var mappedValue = _mapper.Map<ItemDTO>(repositoryResponse);
             return mappedValue;
         }
+
+        public async Task<int> AddClothingItem(ItemDTO item)
+        {
+			var primaryColourId = await _itemRepository.GetColourId(item.Primary_Colour);
+            var secondaryColourId = await _itemRepository.GetColourId(item.Secondary_Colour);
+			var typeId = await _itemRepository.GetTypeId(item.Item_Type);
+
+            var mappedValue = _mapper.Map<AddItemEntity>(item);
+			mappedValue.Primary_Colour_Id = primaryColourId;
+            mappedValue.Secondary_Colour_Id = secondaryColourId;
+			mappedValue.Item_Type_Id = typeId;
+
+            return await _itemRepository.AddClothingItem(mappedValue);
+        }
     }
 
 	public interface IItemService
 	{
 		Task<IEnumerable<ItemDTO>> GetClothingItems();
 		Task<ItemDTO> GetClothingItemById(int itemId);
+		Task<int> AddClothingItem(ItemDTO item);
     }
 }
 

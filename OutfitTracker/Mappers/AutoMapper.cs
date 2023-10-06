@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using OutfitTracker.DTOs;
 using OutfitTracker.Entities;
+using OutfitTracker.Responses;
 
 namespace OutfitTracker.Mappers
 {
@@ -9,7 +10,8 @@ namespace OutfitTracker.Mappers
 		public AutoMapper()
 		{
 			CreateMap<ItemEntity, ItemDTO>();
-            CreateMap<ItemDTO, ItemEntity>();
+            CreateMap<ItemDTO, AddItemEntity>();
+            CreateMap<ItemDTO, ItemResponse>();
         }
     }
 }

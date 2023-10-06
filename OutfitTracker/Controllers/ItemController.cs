@@ -4,6 +4,7 @@ using AutoMapper;
 using OutfitTracker.DTOs;
 using OutfitTracker.Entities;
 using OutfitTracker.Services;
+using OutfitTracker.Responses;
 
 namespace OutfitTracker.Controllers
 {
@@ -34,6 +35,20 @@ namespace OutfitTracker.Controllers
 			var clothingItem = await _itemService.GetClothingItemById(itemId);
 			return Ok(clothingItem);
 		}
-	}
+
+        [HttpPost]
+        public async Task<IActionResult> AddClothingItem([FromBody] ItemDTO item)
+        {
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+            var createdClothingItemId = await _itemService.AddClothingItem(item);
+			var createdClothingItem = _mapper.Map<ItemResponse>(item);
+			createdClothingItem.Id = createdClothingItemId;
+            return CreatedAtAction("AddClothingItem", createdClothingItem);
+        }
+    }
 }
 
