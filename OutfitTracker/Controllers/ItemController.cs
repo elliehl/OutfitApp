@@ -49,6 +49,13 @@ namespace OutfitTracker.Controllers
 			createdClothingItem.Id = createdClothingItemId;
             return CreatedAtAction("AddClothingItem", createdClothingItem);
         }
+
+		[HttpDelete("{itemId}")]
+		public async Task<IActionResult> DeleteItem([FromRoute] int itemId)
+		{
+			await _itemService.DeleteItem(itemId);
+			return Ok("Item successfully deleted");
+		}
     }
 }
 

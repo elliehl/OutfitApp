@@ -86,7 +86,24 @@ namespace OutfitTracker.Repositories
             }
         }
 
-		public async Task<int> GetColourId(string colour)
+        public async Task DeleteItem(int itemId)
+		{
+			var parameters = new { Id = itemId };
+			var query = "DELETE FROM item WHERE id = @Id";
+
+			try
+			{
+				using var connection = _context.GetConnection();
+				await connection.ExecuteAsync(query, parameters);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
+				throw;
+			}
+		}
+
+        public async Task<int> GetColourId(string colour)
 		{
 			var parameters = new { Colour = colour };
 			var query = "SELECT id FROM colour WHERE name = @Colour";
@@ -129,7 +146,8 @@ namespace OutfitTracker.Repositories
 		Task<IEnumerable<ItemEntity>> GetClothingItems();
 		Task<ItemEntity> GetClothingItemById(int itemId);
 		Task<int> AddClothingItem(AddItemEntity item);
-		Task<int> GetColourId(string colour);
+		Task DeleteItem(int itemId);
+        Task<int> GetColourId(string colour);
 		Task<int> GetTypeId(string type);
     }
 }

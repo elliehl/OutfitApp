@@ -43,6 +43,11 @@ namespace OutfitTracker.Services
 
             return await _itemRepository.AddClothingItem(mappedValue);
         }
+
+		public async Task DeleteItem (int itemId)
+		{
+			await _itemRepository.DeleteItem(itemId);
+		}
     }
 
 	public interface IItemService
@@ -50,6 +55,7 @@ namespace OutfitTracker.Services
 		Task<IEnumerable<ItemDTO>> GetClothingItems();
 		Task<ItemDTO> GetClothingItemById(int itemId);
 		Task<int> AddClothingItem(ItemDTO item);
+		Task DeleteItem(int itemId);
     }
 }
 
