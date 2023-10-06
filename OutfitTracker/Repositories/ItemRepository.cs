@@ -111,7 +111,7 @@ namespace OutfitTracker.Repositories
 			try
 			{
 				using var connection = _context.GetConnection();
-				int Id = await connection.QuerySingleAsync<int>(query, parameters);
+				int Id = await connection.ExecuteScalarAsync<int>(query, parameters);
 				return Id;
 			}
 			catch (Exception ex)
