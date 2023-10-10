@@ -10,6 +10,7 @@ namespace OutfitTracker.Mappers
 		public AutoMapper()
 		{
 			CreateMap<ItemEntity, ItemDTO>();
+            CreateMap<ItemEntity, GetItemDTO>();
             CreateMap<ItemDTO, AddItemEntity>();
             CreateMap<ItemDTO, ItemResponse>();
         }
