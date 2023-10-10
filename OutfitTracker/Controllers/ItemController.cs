@@ -56,6 +56,13 @@ namespace OutfitTracker.Controllers
 			await _itemService.DeleteItem(itemId);
 			return Ok("Item successfully deleted");
 		}
+
+		[HttpPut("{itemId}")]
+		public async Task<IActionResult> UpdateClothingItem([FromBody] ItemDTO item, [FromRoute] int itemId)
+		{
+			await _itemService.UpdateClothingItem(item, itemId);
+			return Ok();
+		}
     }
 }
 

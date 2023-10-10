@@ -16,17 +16,17 @@ namespace OutfitTracker.Services
 			_mapper = mapper;
 		}
 
-		public async Task<IEnumerable<ItemDTO>> GetClothingItems()
+		public async Task<IEnumerable<GetItemDTO>> GetClothingItems()
 		{
 			var repositoryResponse = await _itemRepository.GetClothingItems();
-			var mappedValue = repositoryResponse.Select(_mapper.Map<ItemDTO>);
+			var mappedValue = repositoryResponse.Select(_mapper.Map<GetItemDTO>);
 			return mappedValue;
 		}
 
-        public async Task<ItemDTO> GetClothingItemById(int itemId)
+        public async Task<GetItemDTO> GetClothingItemById(int itemId)
         {
             var repositoryResponse = await _itemRepository.GetClothingItemById(itemId);
-            var mappedValue = _mapper.Map<ItemDTO>(repositoryResponse);
+            var mappedValue = _mapper.Map<GetItemDTO>(repositoryResponse);
             return mappedValue;
         }
 
@@ -48,14 +48,29 @@ namespace OutfitTracker.Services
 		{
 			await _itemRepository.DeleteItem(itemId);
 		}
+
+		public async Task UpdateClothingItem(ItemDTO item, int itemId)
+		{
+            var primaryColourId = await _itemRepository.GetColourId(item.Primary_Colour);
+            var secondaryColourId = await _itemRepository.GetColourId(item.Secondary_Colour);
+            var typeId = await _itemRepository.GetTypeId(item.Item_Type);
+
+            var mappedValue = _mapper.Map<AddItemEntity>(item);
+            mappedValue.Primary_Colour_Id = primaryColourId;
+            mappedValue.Secondary_Colour_Id = secondaryColourId;
+            mappedValue.Item_Type_Id = typeId;
+
+			await _itemRepository.UpdateClothingItem(mappedValue, itemId);
+        }
     }
 
 	public interface IItemService
 	{
-		Task<IEnumerable<ItemDTO>> GetClothingItems();
-		Task<ItemDTO> GetClothingItemById(int itemId);
+		Task<IEnumerable<GetItemDTO>> GetClothingItems();
+		Task<GetItemDTO> GetClothingItemById(int itemId);
 		Task<int> AddClothingItem(ItemDTO item);
 		Task DeleteItem(int itemId);
+		Task UpdateClothingItem(ItemDTO item, int itemId);
     }
 }
 

@@ -103,7 +103,42 @@ namespace OutfitTracker.Repositories
 			}
 		}
 
-        public async Task<int> GetColourId(string colour)
+		public async Task UpdateClothingItem(AddItemEntity item, int itemId)
+		{
+			var parameters = new
+			{
+				Name = item.Name,
+				Item_Type = item.Item_Type_Id,
+				Price = item.Price,
+				Date_Bought = item.Date_Bought,
+				Primary_Colour = item.Primary_Colour_Id,
+				Secondary_Colour = item.Secondary_Colour_Id,
+				Brand = item.Brand,
+				Image_Path = item.Image_Path,
+				Is_Available_To_Wear = item.Is_Available_To_Wear,
+				Quantity = item.Quantity,
+				Id = itemId
+			};
+			var query = "UPDATE item " +
+						"SET name = @Name, type_id = @Item_Type, price = Price, date_bought = @Date_Bought, " +
+						"primary_colour_id = @Primary_Colour, secondary_colour_id = @Secondary_Colour, " +
+						"brand = @Brand, image_path = @Image_Path, is_available_to_wear = @Is_Available_To_Wear, " +
+						"quantity = @Quantity " +
+						"WHERE id = @Id";
+
+			try
+			{
+				using var connection = _context.GetConnection();
+				await connection.ExecuteAsync(query, parameters);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
+				throw;
+			}
+		}
+
+		public async Task<int> GetColourId(string colour)
 		{
 			var parameters = new { Colour = colour };
 			var query = "SELECT id FROM colour WHERE name = @Colour";
@@ -111,8 +146,8 @@ namespace OutfitTracker.Repositories
 			try
 			{
 				using var connection = _context.GetConnection();
-				int Id = await connection.ExecuteScalarAsync<int>(query, parameters);
-				return Id;
+				int id = await connection.QuerySingleAsync<int>(query, parameters);
+				return id;
 			}
 			catch (Exception ex)
 			{
@@ -129,8 +164,8 @@ namespace OutfitTracker.Repositories
             try
             {
                 using var connection = _context.GetConnection();
-                int Id = await connection.QuerySingleAsync<int>(query, parameters);
-                return Id;
+                int id = await connection.QuerySingleAsync<int>(query, parameters);
+                return id;
             }
             catch (Exception ex)
             {
@@ -149,6 +184,7 @@ namespace OutfitTracker.Repositories
 		Task DeleteItem(int itemId);
         Task<int> GetColourId(string colour);
 		Task<int> GetTypeId(string type);
+		Task UpdateClothingItem(AddItemEntity item, int itemId);
     }
 }
 
